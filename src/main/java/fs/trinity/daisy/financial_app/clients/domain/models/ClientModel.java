@@ -18,7 +18,7 @@ public class ClientModel {
     private Long id;
     @Enumerated(EnumType.STRING)
     private IdTypes idType;
-    private Integer numId;
+    private Integer idNum;
     private String firstName;
     private String lastName;
     private LocalDate birthDate;

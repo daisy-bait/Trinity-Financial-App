@@ -1,0 +1,38 @@
+package fs.trinity.daisy.financial_app.clients.infrastructure.output.persistence.entity;
+
+import fs.trinity.daisy.financial_app.clients.domain.models.IdTypes;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "clients")
+public class ClientEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false, unique = true, name = "identification_type")
+    private IdTypes identificationType;
+    @Column(nullable = false, name = "identification_number")
+    private Integer identificationNumber;
+    @Column(nullable = false, name = "first_name")
+    private String firstName;
+    @Column(nullable = false, name = "last_name")
+    private String lastName;
+    @Column(nullable = false, name = "birth_date")
+    private LocalDate birthDate;
+    @Column(nullable = false, name = "created_date")
+    private LocalDate createdDate;
+    @Column(nullable = false, name = "modified_date")
+    private LocalDate modifiedDate;
+
+}

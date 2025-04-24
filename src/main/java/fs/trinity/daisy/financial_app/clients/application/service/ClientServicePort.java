@@ -45,7 +45,7 @@ public class ClientServicePort implements ClientUseCases {
     public ClientModel modifyClient(ClientModel newClientInfo, Long clientId) {
         ClientModel modifiedClient = this.getClientModel(clientId);
         modifiedClient.setIdType(newClientInfo.getIdType());
-        modifiedClient.setNumId(newClientInfo.getNumId());
+        modifiedClient.setIdNum(newClientInfo.getIdNum());
         modifiedClient.setFirstName(newClientInfo.getFirstName());
         modifiedClient.setLastName(newClientInfo.getLastName());
         modifiedClient.setBirthDate(newClientInfo.getBirthDate());
