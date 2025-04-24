@@ -14,7 +14,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class ClientService implements ClientUseCases {
+public class ClientServicePort implements ClientUseCases {
 
     private final ClientRepositoryPort clientRepo;
 
