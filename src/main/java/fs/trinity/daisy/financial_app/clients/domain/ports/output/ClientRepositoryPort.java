@@ -1,0 +1,20 @@
+package fs.trinity.daisy.financial_app.clients.domain.ports.output;
+
+import fs.trinity.daisy.financial_app.clients.domain.models.ClientModel;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface ClientRepositoryPort {
+
+    List<ClientModel> findAll();
+
+    Optional<ClientModel> findClientById(Long id);
+
+    ClientModel saveClient(ClientModel client);
+
+    ClientModel updateClient(ClientModel client, Long clientId);
+
+    ClientModel deleteClient(Long clientId);
+
+}
