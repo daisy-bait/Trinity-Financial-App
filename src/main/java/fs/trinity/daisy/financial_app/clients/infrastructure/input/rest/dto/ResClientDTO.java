@@ -1,6 +1,5 @@
 package fs.trinity.daisy.financial_app.clients.infrastructure.input.rest.dto;
 
-import fs.trinity.daisy.financial_app.clients.domain.models.IdTypes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,12 +11,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ClientDTO {
+public class ResClientDTO extends ClientDTO {
 
-    private IdTypes idType;
-    private Integer idNum;
-    private String firstName;
-    private String lastName;
-    private LocalDate birthDate;
+    private Long id;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
 }
