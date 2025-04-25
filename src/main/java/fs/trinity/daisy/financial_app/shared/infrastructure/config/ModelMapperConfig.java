@@ -1,4 +1,4 @@
-package fs.trinity.daisy.financial_app.share.infrastructure.config;
+package fs.trinity.daisy.financial_app.shared.infrastructure.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

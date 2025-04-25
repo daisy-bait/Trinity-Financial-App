@@ -13,8 +13,6 @@ public interface ClientRepositoryPort {
 
     ClientModel saveClient(ClientModel client);
 
-    ClientModel updateClient(ClientModel client, Long clientId);
-
-    ClientModel deleteClient(Long clientId);
+    void deleteClient(Long clientId);
 
 }
