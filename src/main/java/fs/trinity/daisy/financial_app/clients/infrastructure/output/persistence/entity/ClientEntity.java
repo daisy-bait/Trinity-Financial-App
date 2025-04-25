@@ -21,6 +21,7 @@ public class ClientEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = true, name = "identification_type")
+    @Enumerated(EnumType.STRING)
     private IdTypes identificationType;
     @Column(nullable = false, name = "identification_number")
     private Integer identificationNumber;
