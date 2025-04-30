@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -31,6 +32,7 @@ public class TransactionEntity {
     private ProductEntity originProduct;
     @ManyToOne
     private ProductEntity destinyProduct;
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     @Column(nullable = false, name = "transaction_date")
     private LocalDateTime transactionDate;
 

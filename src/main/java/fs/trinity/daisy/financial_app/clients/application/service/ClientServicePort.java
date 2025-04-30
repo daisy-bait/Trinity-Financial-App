@@ -36,7 +36,7 @@ public class ClientServicePort implements ClientUseCases {
         clientModel.setLastModifiedDate(LocalDateTime.now());
 
         if (Period.between(clientModel.getBirthDate(), LocalDate.now()).getYears() < 18) {
-            throw new AgeNotValidException("Edad no Válidad Brother");
+            throw new AgeNotValidException("Age must be greater than 18");
         }
 
         return clientRepo.saveClient(clientModel);
