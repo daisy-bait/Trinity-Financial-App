@@ -1,18 +1,19 @@
 package fs.trinity.daisy.financial_app.products.domain.ports.output;
 
 import fs.trinity.daisy.financial_app.clients.domain.models.ClientModel;
+import fs.trinity.daisy.financial_app.products.domain.models.ProductModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepositoryPort {
 
-    List<ClientModel> findAll();
+    List<ProductModel> findAll();
 
-    Optional<ClientModel> findProductById(Long productId);
+    Optional<ProductModel> findProductById(Long productId);
 
-    ClientModel saveClient(ClientModel clientModel);
+    ProductModel saveProduct(ProductModel clientModel);
 
-    void deleteClientById(Long productId);
+    void deleteProductById(Long productId);
 
 }

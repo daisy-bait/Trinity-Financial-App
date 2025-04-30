@@ -19,8 +19,6 @@ public class ClientServicePort implements ClientUseCases {
 
     private final ClientRepositoryPort clientRepo;
 
-
-
     @Override
     public List<ClientModel> getClients() {
         return clientRepo.findAll();
