@@ -1,33 +1,42 @@
 package fs.trinity.daisy.financial_app.products.infrastructure.output.persistence.adapter;
 
-import fs.trinity.daisy.financial_app.clients.domain.models.ClientModel;
 import fs.trinity.daisy.financial_app.products.domain.models.ProductModel;
 import fs.trinity.daisy.financial_app.products.domain.ports.output.ProductRepositoryPort;
+import fs.trinity.daisy.financial_app.products.infrastructure.output.persistence.entity.ProductEntity;
+import fs.trinity.daisy.financial_app.products.infrastructure.output.persistence.mapper.ProductPersistenceMapper;
+import fs.trinity.daisy.financial_app.products.infrastructure.output.persistence.repository.JpaProductRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Component
 public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
+    private final JpaProductRepository productRepo;
+
+    private final ProductPersistenceMapper mapper;
+
     @Override
     public List<ProductModel> findAll() {
-        return List.of();
+        return productRepo.findAll().stream().map(mapper::toModel).toList();
     }
 
     @Override
     public Optional<ProductModel> findProductById(Long productId) {
-        return Optional.empty();
+        return productRepo.findById(productId).map(mapper::toModel);
     }
 
     @Override
-    public ProductModel saveProduct(ProductModel clientModel) {
-        return null;
+    public ProductModel saveProduct(ProductModel productModel) {
+        ProductEntity productEntity = mapper.toEntity(productModel);
+        return mapper.toModel(productRepo.save(productEntity));
     }
 
     @Override
     public void deleteProductById(Long productId) {
-
+        productRepo.deleteById(productId);
     }
 }
