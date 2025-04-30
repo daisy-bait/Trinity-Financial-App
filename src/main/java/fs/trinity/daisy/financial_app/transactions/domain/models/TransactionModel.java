@@ -23,10 +23,9 @@ public class TransactionModel {
     private Long id;
     @Enumerated(EnumType.STRING)
     private TransactionTypes transactionType;
-    private String productNumber;
     private BigDecimal amount;
     private ProductModel originProduct;
     private ProductModel destinyProduct;
-    private LocalDateTime transferencyDate;
+    private LocalDateTime transactionDate;
 
 }

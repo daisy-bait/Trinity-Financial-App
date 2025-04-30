@@ -45,10 +45,19 @@ public class ProductServicePort implements ProductUseCases {
 
         generateProductNumber(productModel);
 
-        if (productModel.getProductType().equals(AccountTypes.AHORROS) && productModel.getProductState() == null)
+        if (productModel.getProductType().equals(AccountTypes.AHORROS) && productModel.getProductState() == null) {
             productModel.setProductState(AccountState.ACTIVE);
+        } else if (productModel.getProductState() == null){
+            productModel.setProductState(AccountState.INACTIVE);
+        }
 
         return productRepo.saveProduct(productModel);
+    }
+
+    @Override
+    public void updateProduct(ProductModel productModel) {
+        productModel.setLastModifiedDate(LocalDateTime.now());
+        productRepo.saveProduct(productModel);
     }
 
     @Override
@@ -119,8 +128,8 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public boolean deleteProduct(Long productId) {
         if (productRepo.findProductById(productId).isPresent()) {
-            ProductModel modifiedProduct = this.getProduct(productId);
-            if (modifiedProduct.getProductState().equals(AccountState.CANCELLED)) {
+            ProductModel toDeleteProduct = this.getProduct(productId);
+            if (toDeleteProduct.getProductState().equals(AccountState.CANCELLED)) {
                 productRepo.deleteProductById(productId);
                 return true;
             }

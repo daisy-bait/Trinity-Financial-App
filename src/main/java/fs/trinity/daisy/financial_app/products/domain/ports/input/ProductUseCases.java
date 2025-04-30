@@ -12,6 +12,8 @@ public interface ProductUseCases {
 
     ProductModel createProduct(ProductModel productModel);
 
+    void updateProduct(ProductModel productModel);
+
     ProductModel activeProduct(Long productId);
 
     ProductModel disableProduct(Long productId);

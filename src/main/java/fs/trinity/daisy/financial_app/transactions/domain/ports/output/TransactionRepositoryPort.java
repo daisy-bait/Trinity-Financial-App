@@ -13,6 +13,6 @@ public interface TransactionRepositoryPort {
 
     TransactionModel saveTransaction(TransactionModel transaction);
 
-    boolean deleteTransactionById(Long transactionId);
+    void deleteTransactionById(Long transactionId);
 
 }
