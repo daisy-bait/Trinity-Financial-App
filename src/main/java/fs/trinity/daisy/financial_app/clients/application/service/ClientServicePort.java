@@ -9,30 +9,31 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class ClientService implements ClientUseCases {
+public class ClientServicePort implements ClientUseCases {
 
     private final ClientRepositoryPort clientRepo;
 
     @Override
-    public List<ClientModel> getClientsModels() {
+    public List<ClientModel> getClients() {
         return clientRepo.findAll();
     }
 
     @Override
-    public ClientModel getClientModel(Long clientId) {
+    public ClientModel getClient(Long clientId) {
         return clientRepo.findClientById(clientId)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public ClientModel createClient(ClientModel clientModel) {
-        clientModel.setCreatedDate(LocalDate.now());
-        clientModel.setLastModifiedDate(LocalDate.now());
+        clientModel.setCreatedDate(LocalDateTime.now());
+        clientModel.setLastModifiedDate(LocalDateTime.now());
 
         if (Period.between(clientModel.getBirthDate(), LocalDate.now()).getYears() < 18) {
             throw new AgeNotValidException("Edad no Válidad Brother");
@@ -43,13 +44,14 @@ public class ClientService implements ClientUseCases {
 
     @Override
     public ClientModel modifyClient(ClientModel newClientInfo, Long clientId) {
-        ClientModel modifiedClient = this.getClientModel(clientId);
+        ClientModel modifiedClient = this.getClient(clientId);
         modifiedClient.setIdType(newClientInfo.getIdType());
-        modifiedClient.setNumId(newClientInfo.getNumId());
+        modifiedClient.setIdNum(newClientInfo.getIdNum());
         modifiedClient.setFirstName(newClientInfo.getFirstName());
         modifiedClient.setLastName(newClientInfo.getLastName());
+        modifiedClient.setEmail(newClientInfo.getEmail());
         modifiedClient.setBirthDate(newClientInfo.getBirthDate());
-        modifiedClient.setLastModifiedDate(LocalDate.now());
+        modifiedClient.setLastModifiedDate(LocalDateTime.now());
         return clientRepo.saveClient(modifiedClient);
     }
 

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,11 +19,12 @@ public class ClientModel {
     private Long id;
     @Enumerated(EnumType.STRING)
     private IdTypes idType;
-    private Integer numId;
+    private Integer idNum;
     private String firstName;
     private String lastName;
+    private String email;
     private LocalDate birthDate;
-    private LocalDate createdDate;
-    private LocalDate lastModifiedDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime lastModifiedDate;
 
 }
