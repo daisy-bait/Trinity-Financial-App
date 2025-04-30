@@ -51,6 +51,16 @@ public class ProductRestController {
         return ResponseEntity.ok(mapper.toResDTO(productServicePort.cancelProduct(productId)));
     }
 
+    @PutMapping("/gmf-exempt/{id}")
+    ResponseEntity<ResProductDTO> exemptGMF(@PathVariable("id") Long productId) {
+        return ResponseEntity.ok(mapper.toResDTO(productServicePort.exemptGMF(productId)));
+    }
+
+    @PutMapping("/disable-gmf-exempt/{id}")
+    ResponseEntity<ResProductDTO> disableExemptGMF(@PathVariable("id") Long productId) {
+        return ResponseEntity.ok(mapper.toResDTO(productServicePort.disableExemptGMF(productId)));
+    }
+
     @DeleteMapping("/delete/{id}")
     ResponseEntity<Boolean> deleteProduct(@PathVariable("id") Long productId) {
         return ResponseEntity.ok(productServicePort.deleteProduct(productId));

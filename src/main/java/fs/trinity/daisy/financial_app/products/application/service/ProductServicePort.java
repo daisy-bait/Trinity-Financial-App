@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @AllArgsConstructor
@@ -93,15 +94,26 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public ProductModel exemptGMF(Long productId) {
         ProductModel modifiedProduct = this.getProduct(productId);
-        if (!modifiedProduct.isGmfExempt()) {
-            verifyIsProductIsAvailableToGMF();
+        if (modifiedProduct.isGmfExempt()) {
+            throw new RuntimeException("Product has already been exempted");
         }
-        return null;
+        verifyIsProductIsAvailableToGMF(modifiedProduct.getClient().getId(), productId);
+        modifiedProduct.setGmfExempt(true);
+        modifiedProduct.setLastModifiedDate(LocalDateTime.now());
+
+        return productRepo.saveProduct(modifiedProduct);
     }
 
     @Override
     public ProductModel disableExemptGMF(Long productId) {
-        return null;
+        ProductModel modifiedProduct = this.getProduct(productId);
+        if (!modifiedProduct.isGmfExempt()) {
+            throw new RuntimeException("Product has already been disabled to gmf exempt");
+        }
+        modifiedProduct.setGmfExempt(false);
+        modifiedProduct.setLastModifiedDate(LocalDateTime.now());
+
+        return productRepo.saveProduct(modifiedProduct);
     }
 
     @Override
@@ -130,8 +142,11 @@ public class ProductServicePort implements ProductUseCases {
         product.setProductNumber(prefix.concat(randomNumbers));
     }
 
-    public void verifyIsProductIsAvailableToGMF() {
-
+    public void verifyIsProductIsAvailableToGMF(Long clientId, Long productId) {
+        Optional<ProductModel> product = productRepo.verifyIfIsAvailableToGmfExempt(clientId, productId);
+        if (productRepo.verifyIfIsAvailableToGmfExempt(clientId, productId).isPresent()) {
+            throw new RuntimeException("Product is not available to GMF");
+        }
     }
 
 }

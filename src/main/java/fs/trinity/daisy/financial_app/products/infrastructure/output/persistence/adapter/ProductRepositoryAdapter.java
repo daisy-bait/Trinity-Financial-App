@@ -39,4 +39,9 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     public void deleteProductById(Long productId) {
         productRepo.deleteById(productId);
     }
+
+    @Override
+    public Optional<ProductModel> verifyIfIsAvailableToGmfExempt(Long clientId, Long productId) {
+        return productRepo.findProductWithGmfExempt(clientId, productId).map(mapper::toModel);
+    }
 }

@@ -16,4 +16,6 @@ public interface ProductRepositoryPort {
 
     void deleteProductById(Long productId);
 
+    Optional<ProductModel> verifyIfIsAvailableToGmfExempt(Long clientId, Long productId);
+
 }
