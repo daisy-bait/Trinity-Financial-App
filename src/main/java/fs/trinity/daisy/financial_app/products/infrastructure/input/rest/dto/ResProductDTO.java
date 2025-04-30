@@ -1,6 +1,5 @@
 package fs.trinity.daisy.financial_app.products.infrastructure.input.rest.dto;
 
-import fs.trinity.daisy.financial_app.products.domain.models.AccountTypes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

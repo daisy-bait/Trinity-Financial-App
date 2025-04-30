@@ -36,6 +36,11 @@ public class ProductRestController {
         return ResponseEntity.ok(mapper.toResDTO(productServicePort.createProduct(mapper.toModel(productDTO))));
     }
 
+    @PutMapping("/active/{id}")
+    ResponseEntity<ResProductDTO> activeProduct(@PathVariable("id") Long productId) {
+        return ResponseEntity.ok(mapper.toResDTO(productServicePort.activeProduct(productId)));
+    }
+
     @PutMapping("/disable/{id}")
     ResponseEntity<ResProductDTO> disableProduct(@PathVariable("id") Long productId) {
         return ResponseEntity.ok(mapper.toResDTO(productServicePort.disableProduct(productId)));

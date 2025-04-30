@@ -12,9 +12,15 @@ public interface ProductUseCases {
 
     ProductModel createProduct(ProductModel productModel);
 
+    ProductModel activeProduct(Long productId);
+
     ProductModel disableProduct(Long productId);
 
     ProductModel cancelProduct(Long productId);
+
+    ProductModel exemptGMF(Long productId);
+
+    ProductModel disableExemptGMF(Long productId);
 
     boolean deleteProduct(Long productId);
 

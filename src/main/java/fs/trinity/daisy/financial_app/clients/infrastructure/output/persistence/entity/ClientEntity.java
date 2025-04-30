@@ -1,6 +1,8 @@
 package fs.trinity.daisy.financial_app.clients.infrastructure.output.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fs.trinity.daisy.financial_app.clients.domain.models.IdTypes;
+import fs.trinity.daisy.financial_app.products.infrastructure.output.persistence.entity.ProductEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,5 +41,8 @@ public class ClientEntity {
     private LocalDateTime createdDate;
     @Column(nullable = false, name = "modified_date")
     private LocalDateTime modifiedDate;
+    @JsonIgnore
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductEntity> products;
 
 }

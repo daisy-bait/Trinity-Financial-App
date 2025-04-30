@@ -33,7 +33,7 @@ public class ProductEntity {
     @Column(nullable = false)
     private AccountState productState;
     private BigDecimal balance;
-    @Column(nullable = false, name = "product_number")
+    @Column(nullable = false, name = "gmf_exempt")
     private boolean gmfExempt;
     @JsonIgnore
     @ManyToOne
