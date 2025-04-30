@@ -10,12 +10,23 @@ import org.springframework.stereotype.Component;
 public class ClientRestMapper extends MapperStructure {
 
     public ClientRestMapper() {
+
         this.mapper.typeMap(ResClientDTO.class, ClientModel.class)
                 .addMapping(ResClientDTO::getCreatedAt, ClientModel::setCreatedDate)
-                .addMapping(ResClientDTO::getUpdatedAt, ClientModel::setLastModifiedDate);
+                .addMapping(ResClientDTO::getUpdatedAt, ClientModel::setLastModifiedDate)
+                .addMapping(ResClientDTO::getEmailAddress, ClientModel::setEmail);
         this.mapper.typeMap(ClientModel.class, ResClientDTO.class)
                 .addMapping(ClientModel::getCreatedDate , ResClientDTO::setCreatedAt)
-                .addMapping(ClientModel::getLastModifiedDate, ResClientDTO::setUpdatedAt);
+                .addMapping(ClientModel::getLastModifiedDate, ResClientDTO::setUpdatedAt)
+                .addMapping(ClientModel::getEmail, ResClientDTO::setEmailAddress);
+
+        this.mapper.typeMap(ClientDTO.class, ClientModel.class)
+                .addMapping(ClientDTO::getEmailAddress, ClientModel::setEmail)
+                .addMappings(mapper -> mapper.skip(ClientModel::setId));
+
+        this.mapper.typeMap(ClientModel.class, ClientDTO.class)
+                .addMapping(ClientModel::getEmail, ClientDTO::setEmailAddress);
+
     }
 
     public ClientDTO toDTO(ClientModel clientModel) {

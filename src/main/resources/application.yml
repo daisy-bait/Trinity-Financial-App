@@ -6,7 +6,7 @@ spring:
     name: financial_app
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/financial_app?useSSL=false&serverTimeZone=UTC&allPublicKeyRetrival=true
+    url: jdbc:mysql://localhost:3307/trinity_financial_app?useSSL=false&serverTimeZone=UTC&allPublicKeyRetrival=true
     username: root
     password: root2904
   jpa:

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,20 +21,22 @@ public class ClientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true, name = "identification_type")
+    @Column(nullable = false, name = "identification_type")
     @Enumerated(EnumType.STRING)
     private IdTypes identificationType;
-    @Column(nullable = false, name = "identification_number")
+    @Column(nullable = false, unique = true, name = "identification_number")
     private Integer identificationNumber;
     @Column(nullable = false, name = "first_name")
     private String firstName;
     @Column(nullable = false, name = "last_name")
     private String lastName;
+    @Column(nullable = false, name = "email")
+    private String email;
     @Column(nullable = false, name = "birth_date")
     private LocalDate birthDate;
     @Column(nullable = false, name = "created_date")
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
     @Column(nullable = false, name = "modified_date")
-    private LocalDate modifiedDate;
+    private LocalDateTime modifiedDate;
 
 }

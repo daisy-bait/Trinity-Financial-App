@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import java.util.List;
 public class ClientServicePort implements ClientUseCases {
 
     private final ClientRepositoryPort clientRepo;
+
+
 
     @Override
     public List<ClientModel> getClientsModels() {
@@ -31,8 +34,8 @@ public class ClientServicePort implements ClientUseCases {
 
     @Override
     public ClientModel createClient(ClientModel clientModel) {
-        clientModel.setCreatedDate(LocalDate.now());
-        clientModel.setLastModifiedDate(LocalDate.now());
+        clientModel.setCreatedDate(LocalDateTime.now());
+        clientModel.setLastModifiedDate(LocalDateTime.now());
 
         if (Period.between(clientModel.getBirthDate(), LocalDate.now()).getYears() < 18) {
             throw new AgeNotValidException("Edad no Válidad Brother");
@@ -48,8 +51,9 @@ public class ClientServicePort implements ClientUseCases {
         modifiedClient.setIdNum(newClientInfo.getIdNum());
         modifiedClient.setFirstName(newClientInfo.getFirstName());
         modifiedClient.setLastName(newClientInfo.getLastName());
+        modifiedClient.setEmail(newClientInfo.getEmail());
         modifiedClient.setBirthDate(newClientInfo.getBirthDate());
-        modifiedClient.setLastModifiedDate(LocalDate.now());
+        modifiedClient.setLastModifiedDate(LocalDateTime.now());
         return clientRepo.saveClient(modifiedClient);
     }
 

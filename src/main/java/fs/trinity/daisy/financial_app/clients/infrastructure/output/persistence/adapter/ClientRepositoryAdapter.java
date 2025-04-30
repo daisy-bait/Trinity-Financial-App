@@ -2,6 +2,7 @@ package fs.trinity.daisy.financial_app.clients.infrastructure.output.persistence
 
 import fs.trinity.daisy.financial_app.clients.domain.models.ClientModel;
 import fs.trinity.daisy.financial_app.clients.domain.ports.output.ClientRepositoryPort;
+import fs.trinity.daisy.financial_app.clients.infrastructure.output.persistence.entity.ClientEntity;
 import fs.trinity.daisy.financial_app.clients.infrastructure.output.persistence.mapper.ClientPersistenceMapper;
 import fs.trinity.daisy.financial_app.clients.infrastructure.output.persistence.repository.JpaClientRepository;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,8 @@ public class ClientRepositoryAdapter implements ClientRepositoryPort {
 
     @Override
     public ClientModel saveClient(ClientModel client) {
-        return mapper.toModel(clientRepo.save(mapper.toEntity(client)));
+        ClientEntity clientEntity = mapper.toEntity(client);
+        return mapper.toModel(clientRepo.save(clientEntity));
     }
 
     @Override
