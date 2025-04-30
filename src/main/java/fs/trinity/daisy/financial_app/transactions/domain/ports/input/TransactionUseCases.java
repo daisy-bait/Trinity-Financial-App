@@ -13,9 +13,9 @@ public interface TransactionUseCases {
 
     TransactionModel consignAmount(TransactionModel transactionModel);
 
-    TransactionModel withdrawAmount(Long productOriginId, BigDecimal amount);
+    TransactionModel withdrawAmount(TransactionModel transactionModel);
 
-    TransactionModel transferAmount(Long productOriginId, Long productDestinyId, BigDecimal amount);
+    TransactionModel transferAmount(TransactionModel transactionModel);
 
     boolean deleteTransaction(Long transactionId);
 

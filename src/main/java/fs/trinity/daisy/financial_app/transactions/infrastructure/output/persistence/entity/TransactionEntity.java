@@ -1,6 +1,5 @@
 package fs.trinity.daisy.financial_app.transactions.infrastructure.output.persistence.entity;
 
-import fs.trinity.daisy.financial_app.products.domain.models.ProductModel;
 import fs.trinity.daisy.financial_app.products.infrastructure.output.persistence.entity.ProductEntity;
 import fs.trinity.daisy.financial_app.transactions.domain.models.TransactionTypes;
 import jakarta.persistence.*;

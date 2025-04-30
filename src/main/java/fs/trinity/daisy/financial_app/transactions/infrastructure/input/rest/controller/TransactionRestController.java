@@ -37,4 +37,16 @@ public class TransactionRestController {
         return ResponseEntity.ok(mapper.toResDTO(transactionServicePort.consignAmount(transactionModel)));
     }
 
+    @PostMapping("/withdraw")
+    ResponseEntity<ResTransactionDTO> withdraw(@RequestBody TransactionDTO transactionDTO) {
+        TransactionModel transactionModel = mapper.toModel(transactionDTO);
+        return ResponseEntity.ok(mapper.toResDTO(transactionServicePort.withdrawAmount(transactionModel)));
+    }
+
+    @PostMapping("/transfer")
+    ResponseEntity<ResTransactionDTO> transfer(@RequestBody TransactionDTO transactionDTO) {
+        TransactionModel transactionModel = mapper.toModel(transactionDTO);
+        return ResponseEntity.ok(mapper.toResDTO(transactionServicePort.transferAmount(transactionModel)));
+    }
+
 }

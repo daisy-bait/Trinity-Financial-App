@@ -1,8 +1,8 @@
 package fs.trinity.daisy.financial_app.transactions.application.service;
 
-import fs.trinity.daisy.financial_app.products.application.service.ProductServicePort;
 import fs.trinity.daisy.financial_app.products.domain.models.AccountState;
 import fs.trinity.daisy.financial_app.products.domain.models.ProductModel;
+import fs.trinity.daisy.financial_app.products.domain.ports.input.ProductUseCases;
 import fs.trinity.daisy.financial_app.transactions.domain.models.TransactionModel;
 import fs.trinity.daisy.financial_app.transactions.domain.models.TransactionTypes;
 import fs.trinity.daisy.financial_app.transactions.domain.ports.input.TransactionUseCases;
@@ -21,7 +21,7 @@ public class TransactionServicePort implements TransactionUseCases {
 
     private final TransactionRepositoryPort transactionRepo;
 
-    private final ProductServicePort productServicePort;
+    private final ProductUseCases productServicePort;
 
     @Override
     public List<TransactionModel> getAllTransactions() {
@@ -56,20 +56,70 @@ public class TransactionServicePort implements TransactionUseCases {
     }
 
     @Override
-    public TransactionModel withdrawAmount(Long productOriginId, BigDecimal amount) {
-        verifyProductIsActive(productOriginId);
+    public TransactionModel withdrawAmount(TransactionModel transactionModel) {
+
+        Long productId = transactionModel.getOriginProduct().getId();
+        BigDecimal amount = transactionModel.getAmount();
+
+        verifyProductIsActive(productId);
         verifyAmmountIsNotZero(amount);
 
-        return null;
+        ProductModel productOrigin = productServicePort.getProduct(productId);
+
+        if (productOrigin.getBalance().compareTo(amount) < 0) {
+            throw new RuntimeException("The amount is greater than the product balance");
+        }
+
+        TransactionModel transaction = new TransactionModel();
+        transaction.setTransactionType(TransactionTypes.WITHDRAWAL);
+        transaction.setAmount(amount);
+        transaction.setOriginProduct(productOrigin);
+        transaction.setTransactionDate(LocalDateTime.now());
+
+        productOrigin.setBalance(productOrigin.getBalance().subtract(amount));
+
+        productServicePort.updateProduct(productOrigin);
+        return transactionRepo.saveTransaction(transaction);
     }
 
     @Override
-    public TransactionModel transferAmount(Long productOriginId, Long productDestinyId, BigDecimal amount) {
-        verifyProductIsActive(productOriginId);
-        verifyProductIsActive(productDestinyId);
+    public TransactionModel transferAmount(TransactionModel transactionModel) {
+
+        Long originProductId = transactionModel.getOriginProduct().getId();
+        Long destinyProductId = transactionModel.getDestinyProduct().getId();
+        BigDecimal amount = transactionModel.getAmount();
+
+        verifyProductIsActive(originProductId);
+        verifyProductIsActive(destinyProductId);
         verifyAmmountIsNotZero(amount);
 
-        return null;
+        ProductModel productOrigin = productServicePort.getProduct(originProductId);
+        ProductModel productDestiny = productServicePort.getProduct(destinyProductId);
+
+        if (productOrigin.getBalance().compareTo(amount) < 0) {
+            throw new RuntimeException("The amount is greater than the product origin balance");
+        }
+
+        productDestiny.setBalance(productDestiny.getBalance().add(amount));
+
+        if (!productOrigin.isGmfExempt()) {
+            BigDecimal gmf = amount.multiply(BigDecimal.valueOf(0.004));
+            amount = amount.add(gmf);
+        }
+
+        TransactionModel transaction = new TransactionModel();
+        transaction.setTransactionType(TransactionTypes.TRANSFERENCE);
+        transaction.setAmount(amount);
+        transaction.setOriginProduct(productOrigin);
+        transaction.setDestinyProduct(productDestiny);
+        transaction.setTransactionDate(LocalDateTime.now());
+
+        productOrigin.setBalance(productOrigin.getBalance().subtract(amount));
+
+        productServicePort.updateProduct(productOrigin);
+        productServicePort.updateProduct(productDestiny);
+
+        return transactionRepo.saveTransaction(transaction);
     }
 
     @Override
