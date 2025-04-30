@@ -1,4 +1,4 @@
-package fs.trinity.daisy.financial_app.products.application;
+package fs.trinity.daisy.financial_app.products.application.service;
 
 import fs.trinity.daisy.financial_app.products.domain.models.AccountState;
 import fs.trinity.daisy.financial_app.products.domain.models.AccountTypes;
@@ -36,8 +36,8 @@ public class ProductServicePort implements ProductUseCases {
         productModel.setLastModifiedDate(LocalDateTime.now());
         generateProductNumber(productModel);
 
-        if (productModel.getProductType().equals(AccountTypes.AHORROS) && productModel.getState() == null)
-            productModel.setState(AccountState.ACTIVE);
+        if (productModel.getProductType().equals(AccountTypes.AHORROS) && productModel.getProductState() == null)
+            productModel.setProductState(AccountState.ACTIVE);
 
         return productRepo.saveProduct(productModel);
     }
@@ -45,10 +45,10 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public ProductModel disableProduct(Long productId) {
         ProductModel modifiedProduct = this.getProduct(productId);
-        if (modifiedProduct.getState().equals(AccountState.INACTIVE))
+        if (modifiedProduct.getProductState().equals(AccountState.INACTIVE))
             throw new RuntimeException("Product has already been disabled");
 
-        modifiedProduct.setState(AccountState.INACTIVE);
+        modifiedProduct.setProductState(AccountState.INACTIVE);
 
         return productRepo.saveProduct(modifiedProduct);
     }
@@ -56,13 +56,13 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public ProductModel cancelProduct(Long productId) {
         ProductModel modifiedProduct = this.getProduct(productId);
-        if (modifiedProduct.getState().equals(AccountState.CANCELLED)) {
+        if (modifiedProduct.getProductState().equals(AccountState.CANCELLED)) {
             throw new RuntimeException("Product has already been cancelled");
         } else if (!modifiedProduct.getBalance().equals(0.00)) {
             throw new RuntimeException("Product has balance grater than 0");
         }
 
-        modifiedProduct.setState(AccountState.CANCELLED);
+        modifiedProduct.setProductState(AccountState.CANCELLED);
 
         return productRepo.saveProduct(modifiedProduct);
     }
@@ -71,7 +71,7 @@ public class ProductServicePort implements ProductUseCases {
     public boolean deleteProduct(Long productId) {
         if (productRepo.findProductById(productId).isPresent()) {
             ProductModel modifiedProduct = this.getProduct(productId);
-            if (modifiedProduct.getState().equals(AccountState.CANCELLED)) {
+            if (modifiedProduct.getProductState().equals(AccountState.CANCELLED)) {
                 productRepo.deleteProductById(productId);
                 return true;
             }

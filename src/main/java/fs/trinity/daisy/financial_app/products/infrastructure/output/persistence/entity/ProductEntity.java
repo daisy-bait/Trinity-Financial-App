@@ -31,7 +31,7 @@ public class ProductEntity {
     private String productNumber;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AccountState state;
+    private AccountState productState;
     private BigDecimal balance;
     @Column(nullable = false, name = "product_number")
     private boolean gmfExempt;

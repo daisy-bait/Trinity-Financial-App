@@ -22,7 +22,7 @@ public class ProductModel {
     private AccountTypes productType;
     private String productNumber;
     @Enumerated(EnumType.STRING)
-    private AccountState state;
+    private AccountState productState;
     private BigDecimal balance;
     private boolean gmfExempt;
     private ClientModel client;
