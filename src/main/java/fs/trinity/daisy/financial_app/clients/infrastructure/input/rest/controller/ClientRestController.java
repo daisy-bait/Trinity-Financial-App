@@ -22,13 +22,13 @@ public class ClientRestController {
 
     @GetMapping("/find-all")
     public ResponseEntity<List<ResClientDTO>> retrieveClients() {
-        return ResponseEntity.ok(clientServicePort.getClientsModels()
+        return ResponseEntity.ok(clientServicePort.getClients()
                 .stream().map(mapper::toResDTO).toList());
     }
 
     @GetMapping("/find/{id}")
     public ResponseEntity<ResClientDTO> retrieveClientById(@PathVariable Long id) {
-        return ResponseEntity.ok(mapper.toResDTO(clientServicePort.getClientModel(id)));
+        return ResponseEntity.ok(mapper.toResDTO(clientServicePort.getClient(id)));
     }
 
     @PostMapping("/save")

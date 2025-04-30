@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ClientUseCases {
 
-    List<ClientModel> getClientsModels();
+    List<ClientModel> getClients();
 
-    ClientModel getClientModel(Long clientId);
+    ClientModel getClient(Long clientId);
 
     ClientModel createClient(ClientModel clientModel);
 

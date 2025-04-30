@@ -22,12 +22,12 @@ public class ClientServicePort implements ClientUseCases {
 
 
     @Override
-    public List<ClientModel> getClientsModels() {
+    public List<ClientModel> getClients() {
         return clientRepo.findAll();
     }
 
     @Override
-    public ClientModel getClientModel(Long clientId) {
+    public ClientModel getClient(Long clientId) {
         return clientRepo.findClientById(clientId)
                 .orElseThrow(EntityNotFoundException::new);
     }
@@ -46,7 +46,7 @@ public class ClientServicePort implements ClientUseCases {
 
     @Override
     public ClientModel modifyClient(ClientModel newClientInfo, Long clientId) {
-        ClientModel modifiedClient = this.getClientModel(clientId);
+        ClientModel modifiedClient = this.getClient(clientId);
         modifiedClient.setIdType(newClientInfo.getIdType());
         modifiedClient.setIdNum(newClientInfo.getIdNum());
         modifiedClient.setFirstName(newClientInfo.getFirstName());
