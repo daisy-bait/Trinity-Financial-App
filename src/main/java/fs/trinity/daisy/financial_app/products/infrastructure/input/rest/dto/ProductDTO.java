@@ -14,6 +14,7 @@ import lombok.Setter;
 @Setter
 public class ProductDTO {
 
+    @NotNull
     private Long clientId;
     @NotNull
     private AccountTypes productType;
