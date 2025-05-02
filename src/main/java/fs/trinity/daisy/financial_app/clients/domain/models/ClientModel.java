@@ -28,6 +28,5 @@ public class ClientModel {
     private LocalDate birthDate;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
-    private List<ProductModel> products;
 
 }
