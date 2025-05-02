@@ -29,7 +29,7 @@ public class ClientEntity {
     @Enumerated(EnumType.STRING)
     private IdTypes identificationType;
     @Column(nullable = false, unique = true, name = "identification_number")
-    private Integer identificationNumber;
+    private String identificationNumber;
     @Column(nullable = false, name = "first_name")
     private String firstName;
     @Column(nullable = false, name = "last_name")

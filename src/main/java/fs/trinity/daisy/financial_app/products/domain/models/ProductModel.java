@@ -1,6 +1,7 @@
 package fs.trinity.daisy.financial_app.products.domain.models;
 
 import fs.trinity.daisy.financial_app.clients.domain.models.ClientModel;
+import fs.trinity.daisy.financial_app.transactions.domain.models.TransactionModel;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,5 +31,5 @@ public class ProductModel {
     private ClientModel client;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
-
+    private List<TransactionModel> consignmentsAndWithdrawals = new ArrayList<>();
 }

@@ -67,6 +67,11 @@ public class TransactionServicePort implements TransactionUseCases {
 
         ProductModel productOrigin = productServicePort.getProduct(productId);
 
+        if (!productOrigin.isGmfExempt()) {
+            BigDecimal gmf = amount.multiply(BigDecimal.valueOf(0.004));
+            amount = amount.add(gmf);
+        }
+
         if (productOrigin.getBalance().compareTo(amount) < 0 && productOrigin.getProductType().equals(AccountTypes.AHORROS)) {
             throw new RuntimeException("The amount is greater than the product balance");
         }
@@ -90,6 +95,8 @@ public class TransactionServicePort implements TransactionUseCases {
         Long destinyProductId = transactionModel.getDestinyProduct().getId();
         BigDecimal amount = transactionModel.getAmount();
 
+        if (originProductId == destinyProductId) throw new RuntimeException("Transference between the same Products? What a Dumb");
+
         verifyProductIsActive(originProductId);
         verifyProductIsActive(destinyProductId);
         verifyAmmountIsNotZero(amount);
@@ -97,15 +104,15 @@ public class TransactionServicePort implements TransactionUseCases {
         ProductModel productOrigin = productServicePort.getProduct(originProductId);
         ProductModel productDestiny = productServicePort.getProduct(destinyProductId);
 
-        if (productOrigin.getBalance().compareTo(amount) < 0 && productOrigin.getProductType().equals(AccountTypes.AHORROS)) {
-            throw new RuntimeException("The amount is greater than the product origin balance");
-        }
-
         productDestiny.setBalance(productDestiny.getBalance().add(amount));
 
-        if (!productOrigin.isGmfExempt()) {
+        if (!productOrigin.isGmfExempt() && productOrigin.getClient().getId() != productDestiny.getClient().getId()) {
             BigDecimal gmf = amount.multiply(BigDecimal.valueOf(0.004));
             amount = amount.add(gmf);
+        }
+
+        if (productOrigin.getBalance().compareTo(amount) < 0 && productOrigin.getProductType().equals(AccountTypes.AHORROS)) {
+            throw new RuntimeException("The amount is greater than the product origin balance");
         }
 
         TransactionModel transaction = new TransactionModel();
