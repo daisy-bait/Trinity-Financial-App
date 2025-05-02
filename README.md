@@ -40,7 +40,11 @@
 ##### Transacciones (Movimientos Financieros)
 
 >[!warning]
->Comprender bien
+>Al hacer transferencias, el GMF, ósea el 4x1000 se comporta así:
+>- **Consignación:** No se cobra.
+>- **Retiro:** Si se cobra.
+>- **Transferencia entre cuentas:** Se cobra si el dueño de las cuentas no es el mismo, si es el mismo no se cobra.
+
 
 - `id`
 - `typeTransaction ->` Consignación, Retiro y Transferencia entre Cuentas
