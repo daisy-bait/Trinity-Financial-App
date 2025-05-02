@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,7 +29,7 @@ public class ClientEntity {
     @Enumerated(EnumType.STRING)
     private IdTypes identificationType;
     @Column(nullable = false, unique = true, name = "identification_number")
-    private Integer identificationNumber;
+    private String identificationNumber;
     @Column(nullable = false, name = "first_name")
     private String firstName;
     @Column(nullable = false, name = "last_name")
@@ -36,6 +37,7 @@ public class ClientEntity {
     @Column(nullable = false, name = "email")
     private String email;
     @Column(nullable = false, name = "birth_date")
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     private LocalDate birthDate;
     @Column(nullable = false, name = "created_date")
     private LocalDateTime createdDate;

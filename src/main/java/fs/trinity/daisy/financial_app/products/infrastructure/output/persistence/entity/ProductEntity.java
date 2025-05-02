@@ -4,14 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fs.trinity.daisy.financial_app.clients.infrastructure.output.persistence.entity.ClientEntity;
 import fs.trinity.daisy.financial_app.products.domain.models.AccountState;
 import fs.trinity.daisy.financial_app.products.domain.models.AccountTypes;
+import fs.trinity.daisy.financial_app.transactions.infrastructure.output.persistence.entity.TransactionEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,9 +42,14 @@ public class ProductEntity {
     @JsonIgnore
     @ManyToOne
     private ClientEntity client;
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     @Column(nullable = false, name = "created_date")
     private LocalDateTime createdDate;
+    @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     @Column(nullable = false, name = "modified_date")
     private LocalDateTime lastModifiedDate;
+    @JsonIgnore
+    @OneToMany(mappedBy = "originProduct", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TransactionEntity> consignmentsAndWithdrawals = new ArrayList<>();
 
 }

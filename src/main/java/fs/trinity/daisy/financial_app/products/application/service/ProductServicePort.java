@@ -9,7 +9,6 @@ import fs.trinity.daisy.financial_app.products.domain.ports.output.ProductReposi
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,10 +44,19 @@ public class ProductServicePort implements ProductUseCases {
 
         generateProductNumber(productModel);
 
-        if (productModel.getProductType().equals(AccountTypes.AHORROS) && productModel.getProductState() == null)
+        if (productModel.getProductType().equals(AccountTypes.AHORROS) && productModel.getProductState() == null) {
             productModel.setProductState(AccountState.ACTIVE);
+        } else if (productModel.getProductState() == null){
+            productModel.setProductState(AccountState.INACTIVE);
+        }
 
         return productRepo.saveProduct(productModel);
+    }
+
+    @Override
+    public void updateProduct(ProductModel productModel) {
+        productModel.setLastModifiedDate(LocalDateTime.now());
+        productRepo.saveProduct(productModel);
     }
 
     @Override
@@ -78,11 +86,10 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public ProductModel cancelProduct(Long productId) {
         ProductModel modifiedProduct = this.getProduct(productId);
-        boolean test = modifiedProduct.getBalance().compareTo(BigDecimal.ZERO) == 0;
         if (modifiedProduct.getProductState().equals(AccountState.CANCELLED)) {
             throw new RuntimeException("Product has already been cancelled");
-        } else if (modifiedProduct.getBalance().equals(BigDecimal.ZERO)) {
-            throw new RuntimeException("Product has balance grater than 0");
+        } else if (modifiedProduct.getBalance().compareTo(BigDecimal.ZERO) != 0) {
+            throw new RuntimeException("Product balance isn't equal to 0");
         }
 
         modifiedProduct.setProductState(AccountState.CANCELLED);
@@ -119,8 +126,8 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public boolean deleteProduct(Long productId) {
         if (productRepo.findProductById(productId).isPresent()) {
-            ProductModel modifiedProduct = this.getProduct(productId);
-            if (modifiedProduct.getProductState().equals(AccountState.CANCELLED)) {
+            ProductModel toDeleteProduct = this.getProduct(productId);
+            if (toDeleteProduct.getProductState().equals(AccountState.CANCELLED)) {
                 productRepo.deleteProductById(productId);
                 return true;
             }
