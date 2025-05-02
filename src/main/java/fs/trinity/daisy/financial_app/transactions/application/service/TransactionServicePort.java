@@ -1,6 +1,7 @@
 package fs.trinity.daisy.financial_app.transactions.application.service;
 
 import fs.trinity.daisy.financial_app.products.domain.models.AccountState;
+import fs.trinity.daisy.financial_app.products.domain.models.AccountTypes;
 import fs.trinity.daisy.financial_app.products.domain.models.ProductModel;
 import fs.trinity.daisy.financial_app.products.domain.ports.input.ProductUseCases;
 import fs.trinity.daisy.financial_app.transactions.domain.models.TransactionModel;
@@ -66,7 +67,7 @@ public class TransactionServicePort implements TransactionUseCases {
 
         ProductModel productOrigin = productServicePort.getProduct(productId);
 
-        if (productOrigin.getBalance().compareTo(amount) < 0) {
+        if (productOrigin.getBalance().compareTo(amount) < 0 && productOrigin.getProductType().equals(AccountTypes.AHORROS)) {
             throw new RuntimeException("The amount is greater than the product balance");
         }
 
@@ -96,7 +97,7 @@ public class TransactionServicePort implements TransactionUseCases {
         ProductModel productOrigin = productServicePort.getProduct(originProductId);
         ProductModel productDestiny = productServicePort.getProduct(destinyProductId);
 
-        if (productOrigin.getBalance().compareTo(amount) < 0) {
+        if (productOrigin.getBalance().compareTo(amount) < 0 && productOrigin.getProductType().equals(AccountTypes.AHORROS)) {
             throw new RuntimeException("The amount is greater than the product origin balance");
         }
 
