@@ -1,6 +1,8 @@
 package fs.trinity.daisy.financial_app.clients.application.service;
 
 import fs.trinity.daisy.financial_app.clients.domain.exceptions.AgeNotValidException;
+import fs.trinity.daisy.financial_app.clients.domain.exceptions.ClientAlreadyExistsException;
+import fs.trinity.daisy.financial_app.clients.domain.exceptions.NotFoundClientException;
 import fs.trinity.daisy.financial_app.clients.domain.models.ClientModel;
 import fs.trinity.daisy.financial_app.clients.domain.ports.input.ClientUseCases;
 import fs.trinity.daisy.financial_app.clients.domain.ports.output.ClientRepositoryPort;
@@ -31,19 +33,29 @@ public class ClientServicePort implements ClientUseCases {
     }
 
     @Override
+    public ClientModel getClientByIdNum(String idNum) {
+        return clientRepo.findClientByIdNum(idNum)
+                .orElseThrow(NotFoundClientException::new);
+    }
+
+    @Override
     public ClientModel createClient(ClientModel clientModel) {
         clientModel.setCreatedDate(LocalDateTime.now());
         clientModel.setLastModifiedDate(LocalDateTime.now());
 
-        if (Period.between(clientModel.getBirthDate(), LocalDate.now()).getYears() < 18) {
-            throw new AgeNotValidException("Age must be greater than 18");
+        if (clientRepo.findClientByIdNum(clientModel.getIdNum()).isPresent()) {
+            throw new ClientAlreadyExistsException();
         }
+
+        validateBirthAge(clientModel.getBirthDate());
 
         return clientRepo.saveClient(clientModel);
     }
 
     @Override
     public ClientModel modifyClient(ClientModel newClientInfo, Long clientId) {
+        validateBirthAge(newClientInfo.getBirthDate());
+
         ClientModel modifiedClient = this.getClient(clientId);
         modifiedClient.setIdType(newClientInfo.getIdType());
         modifiedClient.setIdNum(newClientInfo.getIdNum());
@@ -52,6 +64,7 @@ public class ClientServicePort implements ClientUseCases {
         modifiedClient.setEmail(newClientInfo.getEmail());
         modifiedClient.setBirthDate(newClientInfo.getBirthDate());
         modifiedClient.setLastModifiedDate(LocalDateTime.now());
+
         return clientRepo.saveClient(modifiedClient);
     }
 
@@ -63,4 +76,11 @@ public class ClientServicePort implements ClientUseCases {
         }
         return false;
     }
+
+    private void validateBirthAge(LocalDate birthDate) {
+        if (Period.between(birthDate, LocalDate.now()).getYears() < 18) {
+            throw new AgeNotValidException("Debes ser mayor de edad.");
+        }
+    }
+
 }

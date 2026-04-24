@@ -10,6 +10,8 @@ public interface ClientUseCases {
 
     ClientModel getClient(Long clientId);
 
+    ClientModel getClientByIdNum(String clientId);
+
     ClientModel createClient(ClientModel clientModel);
 
     ClientModel modifyClient(ClientModel toModifyClient, Long clientId);

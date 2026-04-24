@@ -11,6 +11,8 @@ public interface ClientRepositoryPort {
 
     Optional<ClientModel> findClientById(Long id);
 
+    Optional<ClientModel> findClientByIdNum(String idNum);
+
     ClientModel saveClient(ClientModel client);
 
     void deleteClient(Long clientId);

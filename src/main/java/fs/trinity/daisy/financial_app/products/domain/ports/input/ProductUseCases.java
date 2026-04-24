@@ -10,7 +10,7 @@ public interface ProductUseCases {
 
     ProductModel getProduct(Long productId);
 
-    ProductModel getProductByClientId(Long clientId);
+    List<ProductModel> getProductsByClientId(Long clientId);
 
     ProductModel createProduct(ProductModel productModel);
 

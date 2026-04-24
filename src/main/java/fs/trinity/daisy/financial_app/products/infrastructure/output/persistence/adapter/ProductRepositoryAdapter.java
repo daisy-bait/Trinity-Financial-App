@@ -30,8 +30,8 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     }
 
     @Override
-    public Optional<ProductModel> findProductByClientId(Long clientId) {
-        return productRepo.findByClientId(clientId).map(mapper::toModel);
+    public List<ProductModel> findProductsByClientId(Long clientId) {
+        return productRepo.findByClientId(clientId).stream().map(mapper::toModel).toList();
     }
 
     @Override
@@ -49,4 +49,5 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     public Optional<ProductModel> verifyIfIsAvailableToGmfExempt(Long clientId, Long productId) {
         return productRepo.findProductWithGmfExempt(clientId, productId).map(mapper::toModel);
     }
+
 }

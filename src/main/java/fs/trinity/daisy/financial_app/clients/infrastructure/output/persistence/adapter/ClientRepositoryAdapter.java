@@ -30,6 +30,11 @@ public class ClientRepositoryAdapter implements ClientRepositoryPort {
     }
 
     @Override
+    public Optional<ClientModel> findClientByIdNum(String idNum) {
+        return clientRepo.findByIdentificationNumber(idNum).map((mapper::toModel));
+    }
+
+    @Override
     public ClientModel saveClient(ClientModel client) {
         ClientEntity clientEntity = mapper.toEntity(client);
         return mapper.toModel(clientRepo.save(clientEntity));

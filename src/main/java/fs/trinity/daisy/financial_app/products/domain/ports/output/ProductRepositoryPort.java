@@ -12,7 +12,7 @@ public interface ProductRepositoryPort {
 
     Optional<ProductModel> findProductById(Long productId);
 
-    Optional<ProductModel> findProductByClientId(Long clientId);
+    List<ProductModel> findProductsByClientId(Long clientId);
 
     ProductModel saveProduct(ProductModel clientModel);
 

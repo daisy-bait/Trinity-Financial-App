@@ -35,9 +35,8 @@ public class ProductServicePort implements ProductUseCases {
     }
 
     @Override
-    public ProductModel getProductByClientId(Long clientId) {
-        return productRepo.findProductById(clientId)
-                .orElseThrow(EntityNotFoundException::new);
+    public List<ProductModel> getProductsByClientId(Long clientId) {
+        return productRepo.findProductsByClientId(clientId);
     }
 
     @Override

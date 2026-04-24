@@ -1,0 +1,9 @@
+services:
+  trinity_financial_app:
+    build: .
+    image: trinity_financial_app:latest
+    container_name: Trinity_Financial_App
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - ./.env
