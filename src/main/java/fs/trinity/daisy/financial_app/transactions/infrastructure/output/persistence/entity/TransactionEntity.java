@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -28,8 +30,12 @@ public class TransactionEntity {
     private TransactionTypes transactionType;
     private BigDecimal amount;
     @ManyToOne
+    @JoinColumn(name = "origin_product_id", foreignKey = @ForeignKey(name = "fk_origin_product"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ProductEntity originProduct;
     @ManyToOne
+    @JoinColumn(name = "destiny_product_id", foreignKey = @ForeignKey(name = "fk_destiny_product"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ProductEntity destinyProduct;
     @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     @Column(nullable = false, name = "transaction_date")

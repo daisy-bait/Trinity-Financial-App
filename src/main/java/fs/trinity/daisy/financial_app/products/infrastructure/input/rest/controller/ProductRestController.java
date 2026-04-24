@@ -31,6 +31,12 @@ public class ProductRestController {
         return ResponseEntity.ok(mapper.toResDTO(productServicePort.getProduct(productId)));
     }
 
+    @GetMapping("/find-by-client/{id}")
+    ResponseEntity<List<ResProductDTO>> retrieveProductByClientId(@PathVariable("id") Long clientId) {
+        return ResponseEntity.ok(productServicePort.getProductsByClientId(clientId)
+                .stream().map(mapper::toResDTO).toList());
+    }
+
     @PostMapping("/save")
     ResponseEntity<ResProductDTO> saveProduct(@Valid @RequestBody ProductDTO productDTO) {
         return ResponseEntity.ok(mapper.toResDTO(productServicePort.createProduct(mapper.toModel(productDTO))));

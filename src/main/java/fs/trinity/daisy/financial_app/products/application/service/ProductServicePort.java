@@ -35,6 +35,11 @@ public class ProductServicePort implements ProductUseCases {
     }
 
     @Override
+    public List<ProductModel> getProductsByClientId(Long clientId) {
+        return productRepo.findProductsByClientId(clientId);
+    }
+
+    @Override
     public ProductModel createProduct(ProductModel productModel) {
         productModel.setCreatedDate(LocalDateTime.now());
         productModel.setLastModifiedDate(LocalDateTime.now());

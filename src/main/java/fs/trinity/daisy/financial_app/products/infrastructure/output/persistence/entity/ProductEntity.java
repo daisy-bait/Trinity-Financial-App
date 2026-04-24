@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -41,6 +43,8 @@ public class ProductEntity {
     private boolean gmfExempt;
     @JsonIgnore
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "product_client_id", foreignKey = @ForeignKey(name = "fk_product_client"))
     private ClientEntity client;
     @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     @Column(nullable = false, name = "created_date")
@@ -48,8 +52,5 @@ public class ProductEntity {
     @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm:ss")
     @Column(nullable = false, name = "modified_date")
     private LocalDateTime lastModifiedDate;
-    @JsonIgnore
-    @OneToMany(mappedBy = "originProduct", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TransactionEntity> consignmentsAndWithdrawals = new ArrayList<>();
 
 }

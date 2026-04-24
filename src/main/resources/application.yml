@@ -1,17 +1,17 @@
 server:
-  port: 8080
+  port: ${PORT}
 
 spring:
   application:
     name: financial_app
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/trinity_financial_app?useSSL=false&serverTimeZone=UTC&allPublicKeyRetrival=true
-    username: root
-    password: root2904
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: show

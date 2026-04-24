@@ -43,8 +43,5 @@ public class ClientEntity {
     private LocalDateTime createdDate;
     @Column(nullable = false, name = "modified_date")
     private LocalDateTime modifiedDate;
-    @JsonIgnore
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductEntity> products;
 
 }

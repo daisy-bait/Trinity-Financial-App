@@ -31,6 +31,11 @@ public class ClientRestController {
         return ResponseEntity.ok(mapper.toResDTO(clientServicePort.getClient(id)));
     }
 
+    @GetMapping("/login/{idNum}")
+    public ResponseEntity<ResClientDTO> retrieveClientByIdNumber(@PathVariable String idNum) {
+        return ResponseEntity.ok(mapper.toResDTO(clientServicePort.getClientByIdNum(idNum)));
+    }
+
     @PostMapping("/save")
     public ResponseEntity<ResClientDTO> saveClient(@Valid @RequestBody ClientDTO clientDTO) {
         return ResponseEntity.ok(mapper.toResDTO(clientServicePort.createClient(mapper.toModel(clientDTO))));
