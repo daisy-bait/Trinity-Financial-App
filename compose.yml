@@ -7,3 +7,10 @@ services:
       - "${PORT}:${PORT}"
     env_file:
       - ./.env
+    networks:
+      - kadan-net
+
+networks:
+  kadan-net:
+    driver: bridge
+    external: true
