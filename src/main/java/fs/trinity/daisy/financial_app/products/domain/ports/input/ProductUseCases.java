@@ -10,6 +10,8 @@ public interface ProductUseCases {
 
     ProductModel getProduct(Long productId);
 
+    ProductModel getProductByClientId(Long clientId);
+
     ProductModel createProduct(ProductModel productModel);
 
     void updateProduct(ProductModel productModel);

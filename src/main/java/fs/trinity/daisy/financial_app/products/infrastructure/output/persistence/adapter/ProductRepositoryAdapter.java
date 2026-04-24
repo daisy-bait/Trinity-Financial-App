@@ -30,6 +30,11 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     }
 
     @Override
+    public Optional<ProductModel> findProductByClientId(Long clientId) {
+        return productRepo.findByClientId(clientId).map(mapper::toModel);
+    }
+
+    @Override
     public ProductModel saveProduct(ProductModel productModel) {
         ProductEntity productEntity = mapper.toEntity(productModel);
         return mapper.toModel(productRepo.save(productEntity));

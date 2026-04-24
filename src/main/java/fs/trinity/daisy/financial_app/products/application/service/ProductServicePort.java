@@ -35,6 +35,12 @@ public class ProductServicePort implements ProductUseCases {
     }
 
     @Override
+    public ProductModel getProductByClientId(Long clientId) {
+        return productRepo.findProductById(clientId)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
     public ProductModel createProduct(ProductModel productModel) {
         productModel.setCreatedDate(LocalDateTime.now());
         productModel.setLastModifiedDate(LocalDateTime.now());
