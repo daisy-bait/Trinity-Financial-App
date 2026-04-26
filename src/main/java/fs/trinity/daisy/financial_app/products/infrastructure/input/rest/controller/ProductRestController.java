@@ -1,11 +1,15 @@
 package fs.trinity.daisy.financial_app.products.infrastructure.input.rest.controller;
 
+import fs.trinity.daisy.financial_app.products.domain.models.ProductModel;
 import fs.trinity.daisy.financial_app.products.domain.ports.input.ProductUseCases;
 import fs.trinity.daisy.financial_app.products.infrastructure.input.rest.dto.ProductDTO;
 import fs.trinity.daisy.financial_app.products.infrastructure.input.rest.dto.ResProductDTO;
 import fs.trinity.daisy.financial_app.products.infrastructure.input.rest.mapper.ProductRestMapper;
+import fs.trinity.daisy.financial_app.shared.infrastructure.model.PageResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,9 +41,21 @@ public class ProductRestController {
                 .stream().map(mapper::toResDTO).toList());
     }
 
-    @GetMapping("/find-by-number/{id}")
-    ResponseEntity<ResProductDTO> retrieveProductByNumber(@PathVariable("id") String productNumber) {
-        return ResponseEntity.ok(mapper.toResDTO(productServicePort.getProductByProductNumber(productNumber)));
+    @GetMapping("/find-by-number")
+    ResponseEntity<PageResponse<ResProductDTO>> retrieveProductByNumber(
+            @RequestParam String productNumber,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "3") Integer size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        PageResponse<ProductModel> pageResponse = productServicePort.pageProductsByProductNumber(pageable, productNumber);
+        PageResponse<ResProductDTO> dtoPageResponse =  new PageResponse<>();
+        dtoPageResponse.setContent(pageResponse.getContent().stream().map(mapper::toResDTO).toList());
+        dtoPageResponse.setTotalElements(pageResponse.getTotalElements());
+        dtoPageResponse.setTotalPages(pageResponse.getTotalPages());
+        dtoPageResponse.setPageNumber(pageResponse.getPageNumber());
+        dtoPageResponse.setPageSize(pageResponse.getPageSize());
+        return ResponseEntity.ok(dtoPageResponse);
     }
 
     @PostMapping("/save")

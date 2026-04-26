@@ -6,6 +6,8 @@ import fs.trinity.daisy.financial_app.products.infrastructure.output.persistence
 import fs.trinity.daisy.financial_app.products.infrastructure.output.persistence.mapper.ProductPersistenceMapper;
 import fs.trinity.daisy.financial_app.products.infrastructure.output.persistence.repository.JpaProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -35,8 +37,8 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     }
 
     @Override
-    public Optional<ProductModel> findProductByProductNumber(String productNumber) {
-        return productRepo.findByProductNumber(productNumber).map(mapper::toModel);
+    public Page<ProductModel> pageProductByProductNumber(Pageable pageable, String productNumber) {
+        return productRepo.pageByProductNumber(productNumber, pageable).map(mapper::toModel);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package fs.trinity.daisy.financial_app.products.domain.ports.input;
 
 import fs.trinity.daisy.financial_app.products.domain.models.ProductModel;
+import fs.trinity.daisy.financial_app.shared.infrastructure.model.PageResponse;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ public interface ProductUseCases {
 
     List<ProductModel> getProductsByClientId(Long clientId);
 
-    ProductModel getProductByProductNumber(String productNumber);
+    PageResponse<ProductModel> pageProductsByProductNumber(Pageable pageable, String productNumber);
 
     ProductModel createProduct(ProductModel productModel);
 

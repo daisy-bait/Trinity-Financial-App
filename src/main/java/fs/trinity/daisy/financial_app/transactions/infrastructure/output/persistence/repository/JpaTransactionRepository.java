@@ -13,6 +13,6 @@ public interface JpaTransactionRepository extends JpaRepository<TransactionEntit
             "WHERE (:productNumber IS NULL OR t.originProduct.productNumber = :productNumber) " +
             "ORDER BY t.transactionDate DESC",
     nativeQuery = false)
-    public Page<TransactionEntity> pageByProductNumber(@Param("productNumber") String productNumber, Pageable pageable);
+    Page<TransactionEntity> pageByProductNumber(@Param("productNumber") String productNumber, Pageable pageable);
 
 }

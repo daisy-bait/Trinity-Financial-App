@@ -1,6 +1,8 @@
 package fs.trinity.daisy.financial_app.products.infrastructure.output.persistence.repository;
 
 import fs.trinity.daisy.financial_app.products.infrastructure.output.persistence.entity.ProductEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,5 +20,9 @@ public interface JpaProductRepository extends JpaRepository<ProductEntity, Long>
 
     List<ProductEntity> findByClientId(Long clientId);
 
-    Optional<ProductEntity> findByProductNumber(String productNumber);
+    @Query(value = "SELECT p FROM ProductEntity p " +
+            "WHERE (:productNumber IS NULL OR p.productNumber ILIKE %:productNumber%) ",
+    nativeQuery = false)
+    Page<ProductEntity> pageByProductNumber(@Param("productNumber") String productNumber, Pageable pageable);
+
 }

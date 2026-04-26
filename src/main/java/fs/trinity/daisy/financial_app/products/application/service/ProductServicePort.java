@@ -6,9 +6,13 @@ import fs.trinity.daisy.financial_app.products.domain.models.AccountTypes;
 import fs.trinity.daisy.financial_app.products.domain.models.ProductModel;
 import fs.trinity.daisy.financial_app.products.domain.ports.input.ProductUseCases;
 import fs.trinity.daisy.financial_app.products.domain.ports.output.ProductRepositoryPort;
+import fs.trinity.daisy.financial_app.shared.infrastructure.model.PageResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,9 +44,9 @@ public class ProductServicePort implements ProductUseCases {
     }
 
     @Override
-    public ProductModel getProductByProductNumber(String productNumber) {
-        return productRepo.findProductByProductNumber(productNumber)
-                .orElseThrow(EntityNotFoundException::new);
+    public PageResponse<ProductModel> pageProductsByProductNumber(Pageable pageable, String productNumber) {
+         Page<ProductModel> page = productRepo.pageProductByProductNumber(pageable, productNumber);
+         return new PageResponse<>(page);
     }
 
     @Override

@@ -2,6 +2,8 @@ package fs.trinity.daisy.financial_app.products.domain.ports.output;
 
 import fs.trinity.daisy.financial_app.clients.domain.models.ClientModel;
 import fs.trinity.daisy.financial_app.products.domain.models.ProductModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +16,7 @@ public interface ProductRepositoryPort {
 
     List<ProductModel> findProductsByClientId(Long clientId);
 
-    Optional<ProductModel> findProductByProductNumber(String productNumber);
+    Page<ProductModel> pageProductByProductNumber(Pageable pageable, String productNumber);
 
     ProductModel saveProduct(ProductModel clientModel);
 
