@@ -37,6 +37,11 @@ public class ProductRestController {
                 .stream().map(mapper::toResDTO).toList());
     }
 
+    @GetMapping("/find-by-number/{id}")
+    ResponseEntity<ResProductDTO> retrieveProductByNumber(@PathVariable("id") String productNumber) {
+        return ResponseEntity.ok(mapper.toResDTO(productServicePort.getProductByProductNumber(productNumber)));
+    }
+
     @PostMapping("/save")
     ResponseEntity<ResProductDTO> saveProduct(@Valid @RequestBody ProductDTO productDTO) {
         return ResponseEntity.ok(mapper.toResDTO(productServicePort.createProduct(mapper.toModel(productDTO))));

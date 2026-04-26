@@ -12,6 +12,8 @@ public interface ProductUseCases {
 
     List<ProductModel> getProductsByClientId(Long clientId);
 
+    ProductModel getProductByProductNumber(String productNumber);
+
     ProductModel createProduct(ProductModel productModel);
 
     void updateProduct(ProductModel productModel);
