@@ -13,7 +13,7 @@ public interface JpaProductRepository extends JpaRepository<ProductEntity, Long>
     @Query(value = "SELECT p FROM ProductEntity p " +
             "WHERE p.client.id = :client_id " +
             "AND p.gmfExempt = true " +
-            "AND p.id != :product_id")
+            "AND (:product_id IS NULL OR p.id != :product_id)")
     Optional<ProductEntity> findProductWithGmfExempt(@Param("client_id") Long clientId, @Param("product_id") Long productId);
 
     List<ProductEntity> findByClientId(Long clientId);

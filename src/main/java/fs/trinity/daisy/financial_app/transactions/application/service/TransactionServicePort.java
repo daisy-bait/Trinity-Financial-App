@@ -4,12 +4,15 @@ import fs.trinity.daisy.financial_app.products.domain.models.AccountState;
 import fs.trinity.daisy.financial_app.products.domain.models.AccountTypes;
 import fs.trinity.daisy.financial_app.products.domain.models.ProductModel;
 import fs.trinity.daisy.financial_app.products.domain.ports.input.ProductUseCases;
+import fs.trinity.daisy.financial_app.shared.infrastructure.model.PageResponse;
 import fs.trinity.daisy.financial_app.transactions.domain.models.TransactionModel;
 import fs.trinity.daisy.financial_app.transactions.domain.models.TransactionTypes;
 import fs.trinity.daisy.financial_app.transactions.domain.ports.input.TransactionUseCases;
 import fs.trinity.daisy.financial_app.transactions.domain.ports.output.TransactionRepositoryPort;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -33,6 +36,12 @@ public class TransactionServicePort implements TransactionUseCases {
     public TransactionModel getTransactionById(Long transactionId) {
         return transactionRepo.findTransactionById(transactionId)
                 .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public PageResponse<TransactionModel> pageTransactions(Pageable pageable, String productNumber) {
+        Page<TransactionModel> page = transactionRepo.pageTransactionByProductNumber(pageable, productNumber);
+        return new PageResponse<>(page);
     }
 
     @Override

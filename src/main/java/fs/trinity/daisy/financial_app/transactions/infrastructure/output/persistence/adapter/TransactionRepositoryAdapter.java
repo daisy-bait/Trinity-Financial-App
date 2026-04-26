@@ -6,6 +6,8 @@ import fs.trinity.daisy.financial_app.transactions.infrastructure.output.persist
 import fs.trinity.daisy.financial_app.transactions.infrastructure.output.persistence.mapper.TransactionPersistenceMapper;
 import fs.trinity.daisy.financial_app.transactions.infrastructure.output.persistence.repository.JpaTransactionRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,6 +29,11 @@ public class TransactionRepositoryAdapter implements TransactionRepositoryPort {
     @Override
     public Optional<TransactionModel> findTransactionById(Long transactionId) {
         return transactionRepo.findById(transactionId).map(mapper::toModel);
+    }
+
+    @Override
+    public Page<TransactionModel> pageTransactionByProductNumber(Pageable pageable, String productNumber) {
+        return transactionRepo.pageByProductNumber(productNumber, pageable).map(mapper::toModel);
     }
 
     @Override

@@ -61,6 +61,10 @@ public class ProductServicePort implements ProductUseCases {
             productModel.setProductState(AccountState.INACTIVE);
         }
 
+        if (productModel.isGmfExempt()) {
+            verifyIsProductIsAvailableToGMF(productModel.getClient().getId(), null);
+        }
+
         return productRepo.saveProduct(productModel);
     }
 

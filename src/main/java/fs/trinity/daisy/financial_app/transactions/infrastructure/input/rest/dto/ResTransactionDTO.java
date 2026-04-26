@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -18,6 +19,9 @@ public class ResTransactionDTO extends TransactionDTO {
 
     private Long id;
     private TransactionTypes transactionType;
+    private BigDecimal amount;
+    private Long originProductId;
+    private Long destinyProductId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
     private LocalDateTime transactionDate;
 
